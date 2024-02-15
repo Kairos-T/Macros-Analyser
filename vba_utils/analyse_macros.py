@@ -4,10 +4,7 @@ from tabulate import tabulate
 
 def analyse_macros(file):
     results = file.analyze_macros(True)
-    if results is None:
-        print("No VBA macros found! Exiting...")
-        exit(0)
-    else:
+    if results:
         print("The following keywords were found:")
         print("-" * 80)
 
@@ -33,5 +30,10 @@ def analyse_macros(file):
             [f"{Fore.RED}VBA obfuscated strings{Style.RESET_ALL}", file.nb_vbastrings]
         ]
 
-        summary_table = tabulate(summary_data, headers=[f"{Fore.BLUE}Category{Style.RESET_ALL}", f"{Fore.BLUE}Count{Style.RESET_ALL}"], tablefmt="fancy_grid")
+        summary_table = tabulate(summary_data, headers=[f"{Fore.BLUE}Category{Style.RESET_ALL}",
+                                                        f"{Fore.BLUE}Count{Style.RESET_ALL}"], tablefmt="fancy_grid")
         print(summary_table)
+
+    else:
+        print("No VBA macros found! Exiting...")
+        exit(0)
