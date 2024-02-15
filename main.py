@@ -1,6 +1,9 @@
 import os
+
+import colorama
 from oletools.olevba import VBA_Parser
-from vba_utils import view_macros
+
+from vba_utils import view_macros, analyse_macros
 
 
 def get_document():
@@ -21,6 +24,7 @@ def get_document():
 
 
 def main():
+    colorama.init(autoreset=True)
     document_path = get_document()
     if document_path is not None:
         file = VBA_Parser(document_path)
@@ -28,6 +32,7 @@ def main():
         while True:
             try:
                 view_macros.detect_macros(file)
+                analyse_macros.analyse_macros(file)
                 break
             except Exception as e:
                 print("An error occurred: ", e)
