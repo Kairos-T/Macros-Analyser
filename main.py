@@ -72,22 +72,22 @@ def main():
     display_info()
     document_path = get_document()
     print("\033[2J\033[H", end="", flush=True)
-    if document_path is not None:
-        file = VBA_Parser(document_path)
-        while True:
-            option = selection_menu()
-            print("\033[2J\033[H", end="", flush=True)
-            if option == "1":
-                view_macros.detect_macros(file)
-            elif option == "2":
-                analyse_macros.analyse_macros(file)
-            elif option == "3":
-                deobfuscate_macros.deobfuscate(file)
-            elif option == "4":
-                file.close()
-                break
-            else:
-                print("Invalid option! Please try again.")
+    file = VBA_Parser(document_path)
+
+    while True:
+        option = selection_menu()
+        print("\033[2J\033[H", end="", flush=True)
+        if option == "1":
+            view_macros.detect_macros(file)
+        elif option == "2":
+            analyse_macros.analyse_macros(file)
+        elif option == "3":
+            deobfuscate_macros.deobfuscate(file)
+        elif option == "4":
+            file.close()
+            break
+        else:
+            print("Invalid option! Please try again.")
 
 
 if __name__ == "__main__":
