@@ -35,5 +35,4 @@ def analyse_macros(file):
         print(summary_table)
 
     else:
-        print("No VBA macros found! Exiting...")
-        exit(0)
+        print(Fore.GREEN + "No IOCs found!\n")
