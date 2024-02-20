@@ -42,6 +42,15 @@ def display_info():
     print("\033[2J\033[H", end="", flush=True)
 
 
+def initialize():
+    colorama.init(autoreset=True)
+    display_info()
+    document_path = get_document()
+    print("\033[2J\033[H", end="", flush=True)
+    file = VBA_Parser(document_path)
+    return file
+
+
 def get_document():
     while True:
         try:
@@ -58,6 +67,22 @@ def get_document():
             print("An error occurred: ", e)
 
 
+def handle_option(file, option):
+    print("\033[2J\033[H", end="", flush=True)
+    if option == "1":
+        view_macros.detect_macros(file)
+    elif option == "2":
+        analyse_macros.analyse_macros(file)
+    elif option == "3":
+        deobfuscate_macros.deobfuscate(file)
+    elif option == "4":
+        file.close()
+        return True
+    else:
+        print("Invalid option! Please try again.")
+    return False
+
+
 def selection_menu():
     print("Select an option:")
     print("1. View macros")
@@ -68,26 +93,13 @@ def selection_menu():
 
 
 def main():
-    colorama.init(autoreset=True)
-    display_info()
-    document_path = get_document()
-    print("\033[2J\033[H", end="", flush=True)
-    file = VBA_Parser(document_path)
+    file = initialize()
 
     while True:
         option = selection_menu()
-        print("\033[2J\033[H", end="", flush=True)
-        if option == "1":
-            view_macros.detect_macros(file)
-        elif option == "2":
-            analyse_macros.analyse_macros(file)
-        elif option == "3":
-            deobfuscate_macros.deobfuscate(file)
-        elif option == "4":
-            file.close()
+        to_exit = handle_option(file, option)
+        if to_exit:
             break
-        else:
-            print("Invalid option! Please try again.")
 
 
 if __name__ == "__main__":
